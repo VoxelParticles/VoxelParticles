@@ -1,0 +1,11 @@
+name: VoxelParticles
+version: '1.0'
+api-version: '1.13'
+main: niix.dan.voxelparticles.VoxelParticles
+description: 'VoxelParticles allows you to import 3D models from Blender and display them in Minecraft using particles.'
+authors: [Niix-Dan]
+load: STARTUP
+commands:
+  showmodel:
+    description: 'Displays the imported 3D model at the player location using particles.'
+    usage: /showmodel
