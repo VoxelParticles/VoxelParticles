@@ -65,12 +65,12 @@ public final class VoxelParticles extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                Location playerLocation = player.getLocation();
-                showModel(playerLocation);
-                return true;
-            }
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            Location playerLocation = player.getLocation();
+            showModel(playerLocation);
+            return true;
+        }
         return false;
     }
 
@@ -83,25 +83,19 @@ public final class VoxelParticles extends JavaPlugin {
                 Location[] vertices = new Location[vertexIndices.length];
                 for (int i = 0; i < vertexIndices.length; i++) {
                     vertices[i] = modelVertices.get(vertexIndices[i]).clone();
-                    vertices[i].setWorld(origin.getWorld()); // Set the world to the correct one
-                    vertices[i].add(origin); // Add the offset relative to the player's position
+                    vertices[i].setWorld(origin.getWorld());
+                    vertices[i].add(origin);
                 }
-                // Calcular ponto central da face (média dos vértices)
                 Location center = getFaceCenter(vertices);
-
-                // Renderizar partículas ao longo das arestas da face
                 for (int i = 0; i < vertices.length; i++) {
                     Location start = vertices[i];
-                    Location end = vertices[(i + 1) % vertices.length]; // Próximo vértice na lista (fechando o polígono)
+                    Location end = vertices[(i + 1) % vertices.length];
                     drawLineParticles(origin, start, end, center);
                 }
             }
         }, 0L, 5L);
 
-
-        Bukkit.getScheduler().runTaskLater(this, () -> {
-            Bukkit.getScheduler().cancelTask(task);
-        }, durationTicks);
+        Bukkit.getScheduler().runTaskLater(this, () -> Bukkit.getScheduler().cancelTask(task), durationTicks);
     }
 
     private Location getFaceCenter(Location[] vertices) {
@@ -128,12 +122,33 @@ public final class VoxelParticles extends JavaPlugin {
         double deltaY = (end.getY() - start.getY()) / particleCount;
         double deltaZ = (end.getZ() - start.getZ()) / particleCount;
 
+        List<Location> particleLocations = new ArrayList<>();
         for (int i = 0; i < particleCount; i++) {
             Location particleLocation = start.clone().add(deltaX * i, deltaY * i, deltaZ * i);
+            particleLocations.add(particleLocation);
+        }
+
+        List<Location> compressedParticles = compressParticles(particleLocations);
+        
+        for (Location particleLocation : compressedParticles) {
             Bukkit.getScheduler().runTask(this, () -> {
                 origin.getWorld().spawnParticle(Particle.FLAME, particleLocation, 0, 0, 0, 0, 0);
             });
         }
+    }
+
+    private List<Location> compressParticles(List<Location> particleLocations) {
+        double compressionDistance = 0.2; // Distância mínima para agrupar partículas
+        List<Location> compressedParticles = new ArrayList<>();
+        Location lastLocation = null;
+
+        for (Location loc : particleLocations) {
+            if (lastLocation == null || loc.distance(lastLocation) > compressionDistance) {
+                compressedParticles.add(loc);
+                lastLocation = loc;
+            }
+        }
+        return compressedParticles;
     }
 
     private static class Face {
