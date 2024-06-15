@@ -10,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,5 +35,3 @@ jobs:
           name: VoxelParticles
           path: target/VoxelParticles.jar
           
-    - name: Publish to GitHub Packages
-      run: mvn deploy -DskipTests --settings ~/.m2/settings.xml
