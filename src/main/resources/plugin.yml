@@ -7,5 +7,5 @@ authors: [Niix-Dan]
 load: STARTUP
 commands:
   showmodel:
-    description: 'Displays the imported 3D model at the player location using particles. [ALPHA]'
+    description: 'Displays the imported 3D model at the player location using particles.'
     usage: /showmodel
