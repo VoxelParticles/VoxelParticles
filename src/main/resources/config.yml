@@ -1,0 +1,4 @@
+scaleFactor: 1 # Model Scale Factor
+particleDensity: 1 # Particle Density
+durationTicks: 1200 # Duration in Ticks
+compressionDistance: 0.2 # Compress nearby particles to avoid timeout
