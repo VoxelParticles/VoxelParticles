@@ -1,3 +1,8 @@
+<p align="center">
+<img src="https://img.shields.io/github/languages/code-size/VoxelParticles/VoxelParticles.svg"></a>
+<a href="https://github.com/VoxelParticles/VoxelParticles/graphs/contributors"><img src="https://img.shields.io/github/contributors/VoxelParticles/VoxelParticles.svg"></a>
+<a href="https://github.com/VoxelParticles/VoxelParticles/stargazers"><img src="https://img.shields.io/github/stars/VoxelParticles/VoxelParticles.svg?label=Stars&logo=github"></a>
+</p>
 
 ---
 
